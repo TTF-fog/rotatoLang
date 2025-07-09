@@ -14,6 +14,7 @@ const (
 	NEWLINE
 	INST
 	INTEGER
+	STRING
 )
 
 type Token struct {
@@ -29,7 +30,6 @@ type Lexer struct {
 	char  rune
 }
 
-// NewLexer creates a new Lexer.
 func NewLexer(input string) *Lexer {
 	lines := strings.Split(input, "\n")
 	l := &Lexer{lines: lines, line: 0, pos: 0}
@@ -78,6 +78,7 @@ func (l *Lexer) NextToken() Token {
 	case ';':
 		comment := l.readComment()
 		tok = Token{Type: COMMENT, Literal: comment, Line: l.line}
+
 	default:
 		if unicode.IsLetter(l.char) {
 			literal := l.readIdentifier()
@@ -87,14 +88,27 @@ func (l *Lexer) NextToken() Token {
 			literal := l.readNumber()
 			tok = Token{Type: INTEGER, Literal: literal, Line: l.line}
 			return tok
+		} else if l.char == '"' {
+			read_string := l.readString()
+			tok = Token{Type: STRING, Literal: read_string, Line: l.line}
 		} else {
 			tok = Token{Type: ILLEGAL, Literal: string(l.char), Line: l.line}
+			panic("illegal")
 		}
 	}
 	l.advance()
 	return tok
 }
+func (l *Lexer) readString() string {
+	//adv to ign first quote
+	l.advance()
+	start := l.pos
 
+	for l.char != '"' && l.char != '\n' {
+		l.advance()
+	}
+	return l.lines[l.line][start:l.pos]
+}
 func (l *Lexer) readIdentifier() string {
 	start := l.pos
 	for unicode.IsLetter(l.char) {

@@ -5,14 +5,16 @@ import (
 )
 
 type Instruction struct {
-	Mnemonic string
-	Argument int
+	Mnemonic    string
+	Argument    int
+	ArgumentStr string
 }
 
 type VWheel struct {
-	cursor int
-	data   []int
-	dir    int
+	cursor  int
+	data    []int
+	dir     int
+	CMPFLAG bool
 }
 
 type CWheel struct {
@@ -36,17 +38,22 @@ func (vm *VM) Run() {
 		switch inst.Mnemonic {
 		case "NEWV":
 			vm.V.data = append(vm.V.data, inst.Argument)
-
 		case "WHLDIRV":
-			fmt.Println(inst.Argument)
 			if inst.Argument != 1 && inst.Argument != -1 {
 				vm.throwError("Invalid argument", &inst)
 			}
-
 			vm.V.dir = inst.Argument
-
+		case "CMP":
+			cmp := vm.V.data[vm.V.cursor] > inst.Argument
+			vm.V.CMPFLAG = cmp
+			println(cmp)
 		case "OUT":
-			println(vm.V.data[vm.V.cursor])
+			if len(inst.ArgumentStr) > 0 {
+				println(inst.ArgumentStr)
+
+			} else {
+				println(vm.V.data[vm.V.cursor])
+			}
 
 		case "MOVVW":
 
@@ -56,8 +63,17 @@ func (vm *VM) Run() {
 			} else {
 				vm.V.cursor = mod(vm.V.cursor-moveSteps, len(vm.V.data))
 			}
-		case "CMP":
-			
+		case "DBGPRINTV":
+			fmt.Println("Variable Wheel")
+			for index, item := range vm.V.data {
+				if index == vm.V.cursor {
+					fmt.Println(item, "*")
+					continue
+				} else {
+					fmt.Println(item)
+				}
+
+			}
 		}
 
 		vm.C.cursor++

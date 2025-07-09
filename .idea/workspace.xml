@@ -4,16 +4,37 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="" />
+    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="">
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/test.whl" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/test.whl" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="GOROOT" url="file:///usr/lib/go" />
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$/home/ishaan/GolandProjects/twist" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TTF-fog&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/TTF-fog/rotatoLang.git&quot;,
+    &quot;accountId&quot;: &quot;7b87e01c-7d5a-4f62-8477-db5615ca22d6&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2zdKBzcVZQcKpoX0euQcCT3zbUe" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -26,9 +47,11 @@
     "RunOnceActivity.GoLinterPluginStorageMigration": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "master",
     "go.import.settings.migrated": "true",
     "last_opened_file_path": "/home/ishaan",
     "node.js.detected.package.eslint": "true",

@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	file, err := os.Open("test.whl")
+	file, err := os.Open(os.Args[1])
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 		return
@@ -34,10 +34,13 @@ func main() {
 		if tok.Type == INST {
 			argTok := lexer.NextToken()
 			arg := 0
+			str_arg := ""
 			if argTok.Type == INTEGER {
 				arg, _ = strconv.Atoi(argTok.Literal)
+			} else if argTok.Type == STRING {
+				str_arg = argTok.Literal
 			}
-			instructions = append(instructions, Instruction{Mnemonic: tok.Literal, Argument: arg})
+			instructions = append(instructions, Instruction{Mnemonic: tok.Literal, Argument: arg, ArgumentStr: str_arg})
 		}
 	}
 
@@ -48,6 +51,4 @@ func main() {
 	}
 
 	vm.Run()
-
-	fmt.Printf("Variable Wheel after NEWV 0: %+v", vm.V)
 }
