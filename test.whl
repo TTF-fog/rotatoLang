@@ -1,0 +1,10 @@
+NEWV 1   ; Create variable 0 with initial value 0
+NEWV 2
+WHLDIRV 23 ; set cursor to move forward
+MOVVW 1  ; Point to var at cursor + 1 (sign depends on direction)
+OUT          ; print the variable to stdin
+CMP 5        ; Compare var 0 with 5
+JZ 6         ; If equal, jump to line 6
+ADDR 1       ; Add 1 to var 0
+JMP 1        ; Go back to compare again
+HALT 0        ; End program
