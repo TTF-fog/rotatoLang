@@ -1,0 +1,12 @@
+NEWV "NUM1_PLACEHOLDER"
+INP "First Number"
+NEWV "NUM2_PLACEHOLDER"
+MOVVW 1
+INP "Second Number"
+ADDARG
+CMP % ;checks if first number is greater than second
+WHLDIRC 1
+JIZ 3; if no
+OUT "First is greater"
+RET
+OUT "Second is greater"

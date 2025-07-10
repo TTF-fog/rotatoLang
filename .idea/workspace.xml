@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="">
+    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="add instructions, improve OUT functionality to print, add Lexer parsing for string">
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/test.whl" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/test.whl" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/test.whl" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,26 +40,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.GoLinterPluginOnboarding": "true",
-    "RunOnceActivity.GoLinterPluginStorageMigration": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "master",
-    "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/home/ishaan",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/home/ishaan/home/ishaan/GolandProjects/twist/main.go"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginOnboarding&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginStorageMigration&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ishaan&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/ishaan/home/ishaan/GolandProjects/twist/main.go&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -80,6 +80,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add instructions, improve OUT functionality to print, add Lexer parsing for string" />
+    <option name="LAST_COMMIT_MESSAGE" value="add instructions, improve OUT functionality to print, add Lexer parsing for string" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

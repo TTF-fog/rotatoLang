@@ -14,6 +14,7 @@ const (
 	NEWLINE
 	INST
 	INTEGER
+	ARGS
 	STRING
 )
 
@@ -91,6 +92,8 @@ func (l *Lexer) NextToken() Token {
 		} else if l.char == '"' {
 			read_string := l.readString()
 			tok = Token{Type: STRING, Literal: read_string, Line: l.line}
+		} else if l.char == '%' {
+			tok = Token{Type: ARGS, Literal: "PAR", Line: l.line}
 		} else {
 			tok = Token{Type: ILLEGAL, Literal: string(l.char), Line: l.line}
 			panic("illegal")

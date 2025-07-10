@@ -35,12 +35,16 @@ func main() {
 			argTok := lexer.NextToken()
 			arg := 0
 			str_arg := ""
+			args := false
 			if argTok.Type == INTEGER {
 				arg, _ = strconv.Atoi(argTok.Literal)
 			} else if argTok.Type == STRING {
 				str_arg = argTok.Literal
+			} else if argTok.Type == ARGS {
+				args = true
+
 			}
-			instructions = append(instructions, Instruction{Mnemonic: tok.Literal, Argument: arg, ArgumentStr: str_arg})
+			instructions = append(instructions, Instruction{Mnemonic: tok.Literal, Argument: arg, ArgumentStr: str_arg, Args: args})
 		}
 	}
 

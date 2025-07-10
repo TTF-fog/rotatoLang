@@ -1,0 +1,10 @@
+NEWV "PLACEHOLDER_INPUT"
+INP
+CMP 7
+WHLDIRC 1
+JIZ 3
+OUT "Less Than"
+RET
+OUT "Greater"
+RET
+@v
