@@ -16,11 +16,12 @@ const (
 	INTEGER
 	ARGS
 	STRING
+	FUNCTION
 )
 
 type Token struct {
 	Type    TokenType
-	Literal string
+	Literal interface{}
 	Line    int
 }
 
@@ -94,6 +95,9 @@ func (l *Lexer) NextToken() Token {
 			tok = Token{Type: STRING, Literal: read_string, Line: l.line}
 		} else if l.char == '%' {
 			tok = Token{Type: ARGS, Literal: "PAR", Line: l.line}
+		} else if l.char == '_' {
+			function := l.generateFunction()
+			tok = Token{Type: FUNCTION, Literal: function, Line: l.line}
 		} else {
 			tok = Token{Type: ILLEGAL, Literal: string(l.char), Line: l.line}
 			panic("illegal")
@@ -137,4 +141,13 @@ func (l *Lexer) readComment() string {
 		l.advance()
 	}
 	return l.lines[l.line][start:l.pos]
+}
+
+func (l *Lexer) generateFunction() []string {
+	l.advance()
+	start := l.line
+	for l.char != '_' && l.char != '"' && l.char != 0 {
+		l.NextToken()
+	}
+	return l.lines[start:l.line]
 }

@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="expand instruction set to include flow control, comparisions, better logging and inputs, add new tests">
+    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="reorganization">
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/func_test.whl" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +60,11 @@
     &quot;onboarding.tips.debug.path&quot;: &quot;/home/ishaan/home/ishaan/GolandProjects/twist/main.go&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$USER_HOME$/home/ishaan/GolandProjects/twist/programs" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -77,10 +86,22 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add instructions, improve OUT functionality to print, add Lexer parsing for string" />
     <MESSAGE value="expand instruction set to include flow control, comparisions, better logging and inputs, add new tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="expand instruction set to include flow control, comparisions, better logging and inputs, add new tests" />
+    <MESSAGE value="reorganization" />
+    <option name="LAST_COMMIT_MESSAGE" value="reorganization" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

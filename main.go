@@ -26,25 +26,28 @@ func main() {
 	lexer := NewLexer(input)
 
 	var instructions []Instruction
+
 	for {
 		tok := lexer.NextToken()
 		if tok.Type == EOF {
 			break
 		}
 		if tok.Type == INST {
-			argTok := lexer.NextToken()
 			arg := 0
-			str_arg := ""
 			args := false
-			if argTok.Type == INTEGER {
-				arg, _ = strconv.Atoi(argTok.Literal)
-			} else if argTok.Type == STRING {
-				str_arg = argTok.Literal
-			} else if argTok.Type == ARGS {
-				args = true
-
+			str_arg := ""
+			argTok := lexer.NextToken()
+			for argTok.Type != NEWLINE {
+				if argTok.Type == INTEGER {
+					arg, _ = strconv.Atoi(argTok.Literal.(string))
+				} else if argTok.Type == STRING {
+					str_arg = argTok.Literal.(string)
+				} else if argTok.Type == ARGS {
+					args = true
+				}
+				argTok = lexer.NextToken()
 			}
-			instructions = append(instructions, Instruction{Mnemonic: tok.Literal, Argument: arg, ArgumentStr: str_arg, Args: args})
+			instructions = append(instructions, Instruction{Mnemonic: tok.Literal.(string), Argument: arg, ArgumentStr: str_arg, Args: args})
 		}
 	}
 
@@ -52,6 +55,8 @@ func main() {
 		C: CWheel{
 			data: instructions,
 		},
+		// Initialize the VM with a global scope (one VWheel on the dataStack).
+		dataStack: []VWheel{{dir: 1}},
 	}
 
 	vm.Run()

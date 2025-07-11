@@ -13,15 +13,14 @@ type Instruction struct {
 	Mnemonic    string
 	Argument    int
 	ArgumentStr string
-	Args        bool //zis eez por le loading of zi args
+	Args        bool
 }
 
 type VWheel struct {
-	cursor   int
-	data     []interface{}
-	dir      int
-	argStack []interface{}
-	CMPFLAG  bool
+	cursor  int
+	data    []interface{}
+	dir     int
+	CMPFLAG bool
 }
 
 type CWheel struct {
@@ -30,66 +29,126 @@ type CWheel struct {
 	dir    int
 }
 type VM struct {
-	V VWheel
-	C CWheel
+	dataStack []VWheel
+	C         CWheel
+	callStack []int
 }
 
 func mod(a, b int) int {
 	return (a%b + b) % b
 }
 
+type function struct {
+	argument_count int
+	line           int
+}
+
 func (vm *VM) Run() {
-	vm.V.cursor = 0
+	functions := make(map[string]function)
 	var args []interface{}
-	vm.V.dir = 1
+
+	for i, inst := range vm.C.data {
+		if inst.Mnemonic == "DEF" {
+			functions[inst.ArgumentStr] = function{
+				line:           i + 1,
+				argument_count: inst.Argument, //for now...
+			}
+		}
+	}
+
+	if len(vm.dataStack) > 0 {
+		vm.dataStack[0].dir = 1
+	}
+
 	for vm.C.cursor < len(vm.C.data) {
 		inst := vm.C.data[vm.C.cursor]
+		currentVWheel := &vm.dataStack[len(vm.dataStack)-1]
+
 		switch inst.Mnemonic {
+		case "DEF":
+			searchCursor := vm.C.cursor + 1
+			for searchCursor < len(vm.C.data) && vm.C.data[searchCursor].Mnemonic != "RET" {
+				searchCursor++
+			}
+			if searchCursor == len(vm.C.data) {
+				vm.throwError("incorrect termination", &inst)
+			}
+			vm.C.cursor = searchCursor
+
+		case "CALL":
+			funcName := inst.ArgumentStr
+			if startAddr, found := functions[funcName]; found {
+				vm.callStack = append(vm.callStack, vm.C.cursor)
+				var popped_args []interface{}
+				if inst.Args {
+					popped_args, args = pop_args_and_return(functions[funcName].argument_count, args)
+				}
+				newVWheel := VWheel{
+					dir:  1,
+					data: popped_args,
+				}
+
+				vm.dataStack = append(vm.dataStack, newVWheel)
+				vm.C.cursor = startAddr.line
+				continue
+			} else {
+				vm.throwError(fmt.Sprintf("Call to undefined function '%s'", funcName), &inst)
+			}
+		case "RET":
+			if len(vm.callStack) > 0 {
+				if len(vm.dataStack) > 1 {
+					vm.dataStack = vm.dataStack[:len(vm.dataStack)-1]
+				}
+				returnAddr := vm.callStack[len(vm.callStack)-1]
+				vm.callStack = vm.callStack[:len(vm.callStack)-1]
+				vm.C.cursor = returnAddr
+			} else {
+				os.Exit(0)
+			}
 		case "NEWV":
 			if len(inst.ArgumentStr) > 0 {
-				vm.V.data = append(vm.V.data, inst.ArgumentStr)
+				currentVWheel.data = append(currentVWheel.data, inst.ArgumentStr)
 			} else {
-				vm.V.data = append(vm.V.data, inst.Argument)
+				currentVWheel.data = append(currentVWheel.data, inst.Argument)
 			}
 		case "WHLDIRV":
 			if inst.Argument != 1 && inst.Argument != -1 {
 				vm.throwError("Invalid argument", &inst)
 			}
-			vm.V.dir = inst.Argument
+			currentVWheel.dir = inst.Argument
 		case "WHLDIRC":
 			if inst.Argument != 1 && inst.Argument != -1 {
 				vm.throwError("Invalid argument", &inst)
 			}
 			vm.C.dir = inst.Argument
 		case "ADDARG":
-			args = append(args, vm.V.data[vm.V.cursor]) //idk if we shud destroy the variable
+			args = append(args, currentVWheel.data[currentVWheel.cursor])
 		case "CMP":
 			if inst.Args {
 				var popped_args []interface{}
 				popped_args, args = pop_args_and_return(1, args)
-				cursor_data := vm.V.data[vm.V.cursor]
+				cursor_data := currentVWheel.data[currentVWheel.cursor]
 				switch cursor_data.(type) {
 				case int:
-					vm.V.CMPFLAG = cursor_data.(int) > popped_args[0].(int)
+					currentVWheel.CMPFLAG = cursor_data.(int) > popped_args[0].(int)
 				case string:
-					vm.V.CMPFLAG = cursor_data.(string) == popped_args[0].(string)
+					currentVWheel.CMPFLAG = cursor_data.(string) == popped_args[0].(string)
+
 				}
 			} else {
-
-				cursor_data := vm.V.data[vm.V.cursor]
+				cursor_data := currentVWheel.data[currentVWheel.cursor]
 				switch cursor_data.(type) {
 				case int:
-					vm.V.CMPFLAG = cursor_data.(int) > inst.Argument
+					currentVWheel.CMPFLAG = cursor_data.(int) > inst.Argument
 				case string:
-					vm.V.CMPFLAG = cursor_data.(string) == inst.ArgumentStr
+					currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr
 				}
 			}
-
 		case "OUT":
 			if len(inst.ArgumentStr) > 0 {
 				println(inst.ArgumentStr)
 			} else {
-				fmt.Printf("%v \n", vm.V.data[vm.V.cursor])
+				fmt.Printf("%v \n", currentVWheel.data[currentVWheel.cursor])
 			}
 		case "INP":
 			if len(inst.ArgumentStr) > 0 {
@@ -99,25 +158,27 @@ func (vm *VM) Run() {
 			input, _ := reader.ReadString('\n')
 			input = strings.TrimSpace(input)
 			if val, err := strconv.Atoi(input); err == nil {
-				vm.V.data[vm.V.cursor] = val
+				currentVWheel.data[currentVWheel.cursor] = val
 			} else {
-				vm.V.data[vm.V.cursor] = input
+				currentVWheel.data[currentVWheel.cursor] = input
 			}
 		case "MOVVW":
-
 			moveSteps := inst.Argument
-			if vm.V.dir == 1 {
-				vm.V.cursor = mod(vm.V.cursor+moveSteps, len(vm.V.data))
+			if len(currentVWheel.data) == 0 {
+				vm.throwError("Cannot move on empty VWheel", &inst)
+			}
+			if currentVWheel.dir == 1 {
+				currentVWheel.cursor = mod(currentVWheel.cursor+moveSteps, len(currentVWheel.data))
 			} else {
-				vm.V.cursor = mod(vm.V.cursor-moveSteps, len(vm.V.data))
+				currentVWheel.cursor = mod(currentVWheel.cursor-moveSteps, len(currentVWheel.data))
 			}
 		case "JIZ":
-			if !vm.V.CMPFLAG {
+			if !currentVWheel.CMPFLAG {
 				moveSteps := inst.Argument
 				if vm.C.dir == 1 {
 					vm.C.cursor = mod(vm.C.cursor+moveSteps, len(vm.C.data))
 				} else {
-					fmt.Println(vm.C.data[vm.C.cursor].Mnemonic)
+					vm.C.cursor = mod(vm.C.cursor-moveSteps, len(vm.C.data))
 				}
 				continue
 			}
@@ -125,8 +186,6 @@ func (vm *VM) Run() {
 			vm.printDebug()
 		case "DBGPRINTC":
 			vm.printDebugC()
-		case "RET":
-			os.Exit(0)
 		}
 
 		vm.C.cursor++
@@ -134,7 +193,7 @@ func (vm *VM) Run() {
 }
 
 func (vm *VM) throwError(message string, inst *Instruction) {
-	fmt.Printf("%s @ Line %d, instruction %s , argument %d \n", message, vm.C.cursor, inst.Mnemonic, inst.Argument)
+	fmt.Printf("%s @ Line %d, instruction %s , argument %d", message, vm.C.cursor, inst.Mnemonic, inst.Argument)
 	panic("^")
 }
 
@@ -215,7 +274,7 @@ func (vm *VM) printDebugC() {
 }
 
 func (vm *VM) printDebug() {
-	n := len(vm.V.data)
+	n := len(vm.dataStack[len(vm.dataStack)-1].data)
 	if n == 0 {
 		fmt.Println("no variables")
 		return
@@ -265,14 +324,14 @@ func (vm *VM) printDebug() {
 		}
 	}
 
-	for i, item := range vm.V.data {
+	for i, item := range vm.dataStack[len(vm.dataStack)-1].data {
 		angle := float64(i) * angleStep
 
 		x := int(radiusX*math.Cos(angle) + centerX)
 		y := int(radiusY*math.Sin(angle) + centerY)
 
 		s := fmt.Sprintf("%v", item)
-		if i == vm.V.cursor {
+		if i == vm.dataStack[len(vm.dataStack)-1].cursor {
 			s = fmt.Sprintf("[%v]", item)
 		}
 
@@ -288,11 +347,10 @@ func (vm *VM) printDebug() {
 	for _, row := range canvas {
 		fmt.Println(string(row))
 	}
-	fmt.Println(vm.V.data)
+	fmt.Println(vm.dataStack[len(vm.dataStack)-1].data)
 }
 
 func pop_args_and_return(number int, args []interface{}) ([]interface{}, []interface{}) {
-	//returns a certain number of args from the front of the list
 	if len(args) < number {
 		panic("not enough arguments on the stack")
 	}
