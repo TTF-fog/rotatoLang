@@ -1,0 +1,22 @@
+NEWV "INP_PLACEHOLDER"
+NEWV "INP_PLACEHOLDER"
+INP "Enter First Number"
+ADDARG
+MOVVW 1
+INP "Enter Second Number"
+ADDARG
+CALL "print_arg" %
+RET
+
+DEF "print_arg" 2
+    OUT "AT FUNC"
+    ; VWheel has [num1, num2], cursor at 0 (num1)
+    MOVVW 1 ; cursor at 1 (num2)
+    ADDARG  ; arg stack has [num2]
+    MOVVW 1 ; cursor at 0 (num1)
+    CMP %   ; compares num1 > num2
+    JIZ 3   ; if not greater, jump 3 instructions
+    OUT "First is greater"
+    RET
+    OUT "Second is greater or equal"
+    RET
