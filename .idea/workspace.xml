@@ -7,11 +7,26 @@
     <option name="askBeforeDeletingLists" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="updated test programs, new commands">
+    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="begin work on online playground">
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/compiler.go" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/index.html" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/interpreter.go" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/lexer.go" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/calculator.whl" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/comparison.whl" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/full_test.whl" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/func_test.whl" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/test.whl" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/var_test.whl" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/server.go" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/twist" afterDir="false" />
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/wasm_exec.js" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/twist.iml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/twist.iml" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/go.mod" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/go.mod" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/twist" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,32 +61,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Go Build.go build interpreter.go lexer.go main.go.executor": "Run",
-    "Go Build.go build main.go.executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.GoLinterPluginOnboarding": "true",
-    "RunOnceActivity.GoLinterPluginStorageMigration": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "master",
-    "go.import.settings.migrated": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/home/ishaan",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/home/ishaan/home/ishaan/GolandProjects/twist/main.go",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Go Build.go build interpreter.go lexer.go main.go.executor&quot;: &quot;Run&quot;,
+    &quot;Go Build.go build main.go.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginOnboarding&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.GoLinterPluginStorageMigration&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ishaan/home/ishaan/GolandProjects/twist/server&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/ishaan/home/ishaan/GolandProjects/twist/main.go&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$USER_HOME$/home/ishaan/GolandProjects/twist/server" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$USER_HOME$/home/ishaan/GolandProjects/twist/server" />
       <recent name="$USER_HOME$/home/ishaan/GolandProjects/twist/programs" />
     </key>
   </component>
@@ -145,7 +164,9 @@
     <MESSAGE value="MAJOR Updates to support multiple arguments on a single line, as well as FUNCTIONS! (this was hell)" />
     <MESSAGE value="add test program" />
     <MESSAGE value="updated test programs, new commands" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated test programs, new commands" />
+    <MESSAGE value="flesh out arithemetic commands begin support for floats" />
+    <MESSAGE value="begin work on online playground" />
+    <option name="LAST_COMMIT_MESSAGE" value="begin work on online playground" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -155,12 +176,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go</url>
-          <line>332</line>
+          <line>334</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go</url>
-          <line>338</line>
+          <line>340</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>

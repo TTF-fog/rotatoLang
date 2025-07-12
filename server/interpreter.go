@@ -17,7 +17,6 @@ type Instruction struct {
 	Args        bool
 }
 
-// test
 type VWheel struct {
 	cursor  int
 	data    []interface{}
@@ -66,7 +65,6 @@ func (vm *VM) Run() {
 		inst := vm.C.data[vm.C.cursor]
 		currentVWheel := &vm.dataStack[len(vm.dataStack)-1]
 		switch inst.Mnemonic {
-
 		case "DEF":
 			searchCursor := vm.C.cursor + 1
 			for searchCursor < len(vm.C.data) && vm.C.data[searchCursor].Mnemonic != "RET" {

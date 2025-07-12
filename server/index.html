@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("twist.wasm"), go.importObject).then((result) => {
+            go.run(result.instance);
+            document.getElementById('runButton').disabled = false;
+        });
+        function runCode() {
+            const code = document.getElementById('codeInput').value;
+            runTwistCode(code);
+        }
+    </script>
+</head>
+<body>
+    <textarea id="codeInput" rows="20" cols="80"></textarea>
+    <br/>
+    <button id="runButton" onclick="runCode()" disabled>Run</button>
+</body>
+</html>

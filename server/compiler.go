@@ -1,29 +1,19 @@
+//go:build js
+
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"strconv"
-	"strings"
+	"syscall/js"
 )
 
-func main() {
-	println("init")
-	file, err := os.Open(os.Args[1])
-	if err != nil {
-		fmt.Println("Error opening file:", err)
-		return
+func runTwistCode(this js.Value, args []js.Value) interface{} {
+	if len(args) == 0 {
+		fmt.Println("No code provided")
+		return nil
 	}
-	defer file.Close()
-
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	input := strings.Join(lines, "\n")
+	input := args[0].String()
 	lexer := NewLexer(input)
 
 	var instructions []Instruction
@@ -64,4 +54,11 @@ func main() {
 	}
 
 	vm.Run()
+	return nil
+}
+
+func main() {
+	println("Twist Wasm Initialized")
+	js.Global().Set("runTwistCode", js.FuncOf(runTwistCode))
+	<-make(chan bool)
 }
