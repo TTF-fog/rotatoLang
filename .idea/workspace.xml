@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="reorganization">
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/func_test.whl" afterDir="false" />
+    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="add test program">
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/lexer.go" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/comparison.whl" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/comparison.whl" afterDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/full_test.whl" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/full_test.whl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +18,7 @@
   <component name="GOROOT" url="file:///usr/lib/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$/home/ishaan/GolandProjects/twist" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -57,7 +57,8 @@
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/home/ishaan/home/ishaan/GolandProjects/twist/main.go&quot;
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/ishaan/home/ishaan/GolandProjects/twist/main.go&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -101,7 +102,9 @@
     <MESSAGE value="add instructions, improve OUT functionality to print, add Lexer parsing for string" />
     <MESSAGE value="expand instruction set to include flow control, comparisions, better logging and inputs, add new tests" />
     <MESSAGE value="reorganization" />
-    <option name="LAST_COMMIT_MESSAGE" value="reorganization" />
+    <MESSAGE value="MAJOR Updates to support multiple arguments on a single line, as well as FUNCTIONS! (this was hell)" />
+    <MESSAGE value="add test program" />
+    <option name="LAST_COMMIT_MESSAGE" value="add test program" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

@@ -63,7 +63,6 @@ func (vm *VM) Run() {
 	for vm.C.cursor < len(vm.C.data) {
 		inst := vm.C.data[vm.C.cursor]
 		currentVWheel := &vm.dataStack[len(vm.dataStack)-1]
-
 		switch inst.Mnemonic {
 		case "DEF":
 			searchCursor := vm.C.cursor + 1
@@ -74,7 +73,11 @@ func (vm *VM) Run() {
 				vm.throwError("incorrect termination", &inst)
 			}
 			vm.C.cursor = searchCursor
-
+		case "ARGVIEW":
+			for _, item := range args {
+				fmt.Printf("%v ", item)
+			}
+			println("\n")
 		case "CALL":
 			funcName := inst.ArgumentStr
 			if startAddr, found := functions[funcName]; found {
@@ -133,7 +136,6 @@ func (vm *VM) Run() {
 					currentVWheel.CMPFLAG = cursor_data.(int) > popped_args[0].(int)
 				case string:
 					currentVWheel.CMPFLAG = cursor_data.(string) == popped_args[0].(string)
-
 				}
 			} else {
 				cursor_data := currentVWheel.data[currentVWheel.cursor]
@@ -144,6 +146,7 @@ func (vm *VM) Run() {
 					currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr
 				}
 			}
+
 		case "OUT":
 			if len(inst.ArgumentStr) > 0 {
 				println(inst.ArgumentStr)
@@ -152,7 +155,7 @@ func (vm *VM) Run() {
 			}
 		case "INP":
 			if len(inst.ArgumentStr) > 0 {
-				println(inst.ArgumentStr)
+				fmt.Println(inst.ArgumentStr)
 			}
 			reader := bufio.NewReader(os.Stdin)
 			input, _ := reader.ReadString('\n')
