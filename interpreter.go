@@ -12,6 +12,7 @@ import (
 type Instruction struct {
 	Mnemonic    string
 	Argument    int
+	ArgumentF   float64
 	ArgumentStr string
 	Args        bool
 }
@@ -83,7 +84,9 @@ func (vm *VM) Run() {
 			if startAddr, found := functions[funcName]; found {
 				vm.callStack = append(vm.callStack, vm.C.cursor)
 				var popped_args []interface{}
-				if inst.Args {
+				if inst.Argument > 0 {
+					popped_args, args = pop_args_and_return(inst.Argument, args)
+				} else if inst.Args {
 					popped_args, args = pop_args_and_return(functions[funcName].argument_count, args)
 				}
 				newVWheel := VWheel{
@@ -99,8 +102,11 @@ func (vm *VM) Run() {
 			}
 		case "RET":
 			if len(vm.callStack) > 0 {
+				returnValue := vm.dataStack[len(vm.dataStack)-1].data[vm.dataStack[len(vm.dataStack)-1].cursor]
 				if len(vm.dataStack) > 1 {
 					vm.dataStack = vm.dataStack[:len(vm.dataStack)-1]
+					callerVWheel := &vm.dataStack[len(vm.dataStack)-1]
+					callerVWheel.data[callerVWheel.cursor] = returnValue
 				}
 				returnAddr := vm.callStack[len(vm.callStack)-1]
 				vm.callStack = vm.callStack[:len(vm.callStack)-1]
@@ -129,7 +135,7 @@ func (vm *VM) Run() {
 		case "CMP":
 			if inst.Args {
 				var popped_args []interface{}
-				popped_args, args = pop_args_and_return(1, args)
+				popped_args, _ = pop_args_and_return(1, args)
 				cursor_data := currentVWheel.data[currentVWheel.cursor]
 				switch cursor_data.(type) {
 				case int:
@@ -139,11 +145,17 @@ func (vm *VM) Run() {
 				}
 			} else {
 				cursor_data := currentVWheel.data[currentVWheel.cursor]
-				switch cursor_data.(type) {
-				case int:
+				if len(inst.ArgumentStr) > 0 { //since op depends on cursor data type, providing an int to it will return true (generally) as it compares to the
+					currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr //non-existent int argument
+					switch cursor_data.(type) {
+					case int:
+						currentVWheel.CMPFLAG = strconv.Itoa(cursor_data.(int)) == inst.ArgumentStr
+					case string:
+						currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr
+					}
+
+				} else {
 					currentVWheel.CMPFLAG = cursor_data.(int) > inst.Argument
-				case string:
-					currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr
 				}
 			}
 
@@ -183,10 +195,151 @@ func (vm *VM) Run() {
 				} else {
 					vm.C.cursor = mod(vm.C.cursor-moveSteps, len(vm.C.data))
 				}
+				//println(vm.C.data[vm.C.cursor].Mnemonic)
 				continue
 			}
 		case "DBGPRINTV":
 			vm.printDebug()
+		case "ADD":
+			if inst.Argument > 0 {
+				numArgs := inst.Argument
+				numericArgs, err := getNumericArgs(&args, numArgs)
+				if err != nil {
+					vm.throwError(fmt.Sprintf("ADD error: %v", err), &inst)
+				}
+				result := 0
+				for _, val := range numericArgs {
+					result += val
+				}
+				if len(currentVWheel.data) == 0 {
+					vm.throwError("Cannot ADD on empty VWheel", &inst)
+				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			} else {
+				if len(currentVWheel.data) == 0 {
+					vm.throwError("Cannot ADD on empty VWheel", &inst)
+				}
+				result := 0
+				for _, item := range currentVWheel.data {
+					if val, ok := item.(int); ok {
+						result += val
+					} else {
+						vm.throwError("ADD requires numeric data in VWheel", &inst)
+					}
+				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			}
+		case "SUB":
+			if inst.Argument > 0 {
+				numArgs := inst.Argument
+				numericArgs, err := getNumericArgs(&args, numArgs)
+				if err != nil {
+					vm.throwError(fmt.Sprintf("SUB error: %v", err), &inst)
+				}
+				if len(numericArgs) == 0 {
+					vm.throwError("SUB requires at least one argument", &inst)
+				}
+				result := numericArgs[0]
+				for i := 1; i < len(numericArgs); i++ {
+					result -= numericArgs[i]
+				}
+				if len(currentVWheel.data) == 0 {
+					vm.throwError("Cannot SUB on empty VWheel", &inst)
+				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			} else {
+				if len(currentVWheel.data) < 1 {
+					vm.throwError("SUB requires at least one argument in VWheel", &inst)
+				}
+				var numericData []int
+				for _, item := range currentVWheel.data {
+					if val, ok := item.(int); ok {
+						numericData = append(numericData, val)
+					} else {
+						vm.throwError("SUB requires numeric data in VWheel", &inst)
+					}
+				}
+				result := numericData[0]
+				for i := 1; i < len(numericData); i++ {
+					result -= numericData[i]
+				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			}
+		case "MUL":
+			if inst.Argument > 0 {
+				numArgs := inst.Argument
+				numericArgs, err := getNumericArgs(&args, numArgs)
+				if err != nil {
+					vm.throwError(fmt.Sprintf("MUL error: %v", err), &inst)
+				}
+				if len(numericArgs) == 0 {
+					vm.throwError("MUL requires at least one argument", &inst)
+				}
+				result := 1
+				for _, val := range numericArgs {
+					result *= val
+				}
+				if len(currentVWheel.data) == 0 {
+					vm.throwError("Cannot MUL on empty VWheel", &inst)
+				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			} else {
+				if len(currentVWheel.data) == 0 {
+					vm.throwError("Cannot MUL on empty VWheel", &inst)
+				}
+				result := 1
+				for _, item := range currentVWheel.data {
+					if val, ok := item.(int); ok {
+						result *= val
+					} else {
+						vm.throwError("MUL requires numeric data in VWheel", &inst)
+					}
+				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			}
+		case "DIV":
+			if inst.Argument > 0 {
+				numArgs := inst.Argument
+				numericArgs, err := getNumericArgs(&args, numArgs)
+				if err != nil {
+					vm.throwError(fmt.Sprintf("DIV error: %v", err), &inst)
+				}
+				if len(numericArgs) == 0 {
+					vm.throwError("DIV requires at least one argument", &inst)
+				}
+				result := numericArgs[0]
+				for i := 1; i < len(numericArgs); i++ {
+					if numericArgs[i] == 0 {
+						vm.throwError("division by zero", &inst)
+					}
+					result /= numericArgs[i]
+				}
+				if len(currentVWheel.data) == 0 {
+					vm.throwError("Cannot DIV on empty VWheel", &inst)
+				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			} else {
+				if len(currentVWheel.data) < 1 {
+					vm.throwError("DIV requires at least one argument in VWheel", &inst)
+				}
+				var numericData []int
+				for _, item := range currentVWheel.data {
+					if val, ok := item.(int); ok {
+						numericData = append(numericData, val)
+					} else {
+						vm.throwError("DIV requires numeric data in VWheel", &inst)
+					}
+				}
+				var result float64
+				result = float64(numericData[0])
+				for i := 1; i < len(numericData); i++ {
+					if numericData[i] == 0 {
+						vm.throwError("division by zero", &inst)
+					}
+					result /= float64(numericData[i])
+				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			}
 		case "DBGPRINTC":
 			vm.printDebugC()
 		}
@@ -360,4 +513,19 @@ func pop_args_and_return(number int, args []interface{}) ([]interface{}, []inter
 	popped := args[:number]
 	remaining := args[number:]
 	return popped, remaining
+}
+
+func getNumericArgs(args *[]interface{}, count int) ([]int, error) {
+	poppedArgs, remainingArgs := pop_args_and_return(count, *args)
+	*args = remainingArgs
+
+	numericArgs := make([]int, count)
+	for i, arg := range poppedArgs {
+		if val, ok := arg.(int); ok {
+			numericArgs[i] = val
+		} else {
+			return nil, fmt.Errorf("argument %v is not an integer", arg)
+		}
+	}
+	return numericArgs, nil
 }

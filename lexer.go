@@ -14,6 +14,7 @@ const (
 	NEWLINE
 	INST
 	INTEGER
+	FLOAT
 	ARGS
 	STRING
 	FUNCTION
@@ -87,8 +88,8 @@ func (l *Lexer) NextToken() Token {
 			tok = Token{Type: INST, Literal: literal, Line: l.line}
 			return tok
 		} else if unicode.IsDigit(l.char) || l.char == '-' {
-			literal := l.readNumber()
-			tok = Token{Type: INTEGER, Literal: literal, Line: l.line}
+			literal, tokType := l.readNumber()
+			tok = Token{Type: tokType, Literal: literal, Line: l.line}
 			return tok
 		} else if l.char == '"' {
 			read_string := l.readString()
@@ -124,15 +125,23 @@ func (l *Lexer) readIdentifier() string {
 	return l.lines[l.line][start:l.pos]
 }
 
-func (l *Lexer) readNumber() string {
+func (l *Lexer) readNumber() (string, TokenType) {
 	start := l.pos
+	tokType := INTEGER
 	if l.char == '-' {
 		l.advance()
 	}
 	for unicode.IsDigit(l.char) {
 		l.advance()
 	}
-	return l.lines[l.line][start:l.pos]
+	if l.char == '.' {
+		tokType = FLOAT
+		l.advance()
+		for unicode.IsDigit(l.char) {
+			l.advance()
+		}
+	}
+	return l.lines[l.line][start:l.pos], tokType
 }
 
 func (l *Lexer) readComment() string {

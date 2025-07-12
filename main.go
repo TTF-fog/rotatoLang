@@ -35,11 +35,14 @@ func main() {
 		if tok.Type == INST {
 			arg := 0
 			args := false
+			argF := 0.0
 			str_arg := ""
 			argTok := lexer.NextToken()
 			for argTok.Type != NEWLINE {
 				if argTok.Type == INTEGER {
 					arg, _ = strconv.Atoi(argTok.Literal.(string))
+				} else if argTok.Type == FLOAT {
+					argF, _ = strconv.ParseFloat(argTok.Literal.(string), 64)
 				} else if argTok.Type == STRING {
 					str_arg = argTok.Literal.(string)
 				} else if argTok.Type == ARGS {
@@ -47,7 +50,7 @@ func main() {
 				}
 				argTok = lexer.NextToken()
 			}
-			instructions = append(instructions, Instruction{Mnemonic: tok.Literal.(string), Argument: arg, ArgumentStr: str_arg, Args: args})
+			instructions = append(instructions, Instruction{Mnemonic: tok.Literal.(string), Argument: arg, ArgumentF: argF, ArgumentStr: str_arg, Args: args})
 		}
 	}
 
