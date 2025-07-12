@@ -43,7 +43,6 @@ RET
 CMP "*"
 JIZ -5
 CALL "multiply" 2
-ADDARG
 CALL "print_result" %
 RET
 CMP "/"

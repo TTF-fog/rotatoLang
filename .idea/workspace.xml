@@ -8,25 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="begin work on online playground">
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/compiler.go" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/index.html" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/interpreter.go" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/lexer.go" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/calculator.whl" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/comparison.whl" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/full_test.whl" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/func_test.whl" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/test.whl" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/programs/var_test.whl" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/server.go" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/twist" afterDir="false" />
-      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/wasm_exec.js" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/twist.iml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/twist.iml" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/go.mod" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/go.mod" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/twist" beforeDir="false" />
+      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/calculator.whl" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/calculator.whl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +35,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file:///usr/lib/go/src/builtin/builtin.go" root0="SKIP_INSPECTION" />
     <setting file="file:///usr/lib/go/src/runtime/panic.go" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectColorInfo">{
@@ -61,30 +46,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Go Build.go build interpreter.go lexer.go main.go.executor&quot;: &quot;Run&quot;,
-    &quot;Go Build.go build main.go.executor&quot;: &quot;Debug&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.GoLinterPluginOnboarding&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.GoLinterPluginStorageMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ishaan/home/ishaan/GolandProjects/twist/server&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/home/ishaan/home/ishaan/GolandProjects/twist/main.go&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Go Build.go build interpreter.go lexer.go main.go.executor": "Run",
+    "Go Build.go build main.go.executor": "Debug",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.GoLinterPluginOnboarding": "true",
+    "RunOnceActivity.GoLinterPluginStorageMigration": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "master",
+    "go.import.settings.migrated": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/home/ishaan/home/ishaan/GolandProjects/twist/server",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/home/ishaan/home/ishaan/GolandProjects/twist/main.go",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$USER_HOME$/home/ishaan/GolandProjects/twist/server" />
@@ -94,7 +80,14 @@
       <recent name="$USER_HOME$/home/ishaan/GolandProjects/twist/programs" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build interpreter.go lexer.go main.go">
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="GoApplicationRunConfiguration" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Go Build.go build interpreter.go">
     <configuration name="go build interpreter.go lexer.go main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="twist" />
       <working_directory value="$USER_HOME$/$PROJECT_DIR$" />
@@ -103,6 +96,15 @@
       <package value="twist" />
       <directory value="$USER_HOME$/$PROJECT_DIR$" />
       <filePath value="$USER_HOME$/$PROJECT_DIR$/interpreter.go|$USER_HOME$/$PROJECT_DIR$/lexer.go|$USER_HOME$/$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build interpreter.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="twist" />
+      <working_directory value="$USER_HOME$/$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="twist" />
+      <directory value="$USER_HOME$/$PROJECT_DIR$" />
+      <filePath value="$USER_HOME$/$PROJECT_DIR$/interpreter.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -115,11 +117,13 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Go Build.go build interpreter.go" />
       <item itemvalue="Go Build.go build interpreter.go lexer.go main.go" />
       <item itemvalue="Go Build.go build main.go" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build interpreter.go" />
         <item itemvalue="Go Build.go build interpreter.go lexer.go main.go" />
         <item itemvalue="Go Build.go build main.go" />
       </list>
