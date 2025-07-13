@@ -1,9 +1,9 @@
-NEWV 0 ;create new variable to hold iterations
-OUT "ran for"
+
+NEWV 0
+ADDARG
+ADD 1
+OUT "Variable:"
 OUT
-DEL 500 ; delay 500
-ADDARG ; add argument to stack
-ADD 1 ; add 1 to argument and save in place
-CMP 50 ; compare to 50 (desired iterations
-JIZ 6 ; if not 50 yet repeat
-RET
+DEL 300
+CMP 50
+JIZ 5
