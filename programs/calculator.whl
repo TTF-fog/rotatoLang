@@ -13,6 +13,7 @@ RET
 DEF "divide" 2
 DIV 0
 RET
+
 DEF "print_result" 1
 OUT "Result: "
 MOVV 1
@@ -42,9 +43,10 @@ OUT
 RET
 CMP "*"
 JIZ -5
+OUT "Hi"
 CALL "multiply" 2
+ADDARG
 CALL "print_result" %
-RET
 CMP "/"
 JIZ -5
 CALL "divide" 2

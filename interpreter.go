@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Instruction struct {
@@ -66,7 +67,8 @@ func (vm *VM) Run() {
 		inst := vm.C.data[vm.C.cursor]
 		currentVWheel := &vm.dataStack[len(vm.dataStack)-1]
 		switch inst.Mnemonic {
-
+		case "DEL":
+			time.Sleep(time.Duration(inst.Argument) * time.Millisecond)
 		case "DEF":
 			searchCursor := vm.C.cursor + 1
 			for searchCursor < len(vm.C.data) && vm.C.data[searchCursor].Mnemonic != "RET" {
@@ -147,15 +149,15 @@ func (vm *VM) Run() {
 				}
 			} else {
 				cursor_data := currentVWheel.data[currentVWheel.cursor]
-				if len(inst.ArgumentStr) > 0 { //since op depends on cursor data type, providing an int to it will return true (generally) as it compares to the
-					currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr //non-existent int argument
-					switch cursor_data.(type) {
+				if len(inst.ArgumentStr) > 0 {
+					switch val := cursor_data.(type) {
 					case int:
-						currentVWheel.CMPFLAG = strconv.Itoa(cursor_data.(int)) == inst.ArgumentStr
+						currentVWheel.CMPFLAG = strconv.Itoa(val) == inst.ArgumentStr
 					case string:
-						currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr
+						currentVWheel.CMPFLAG = val == inst.ArgumentStr
+					default:
+						currentVWheel.CMPFLAG = false
 					}
-
 				} else {
 					currentVWheel.CMPFLAG = cursor_data.(int) > inst.Argument
 				}
@@ -203,7 +205,7 @@ func (vm *VM) Run() {
 		case "DBGPRINTV":
 			vm.printDebug()
 		case "ADD":
-			if inst.Argument > 0 {
+			if inst.Args {
 				numArgs := inst.Argument
 				numericArgs, err := getNumericArgs(&args, numArgs)
 				if err != nil {
@@ -216,6 +218,10 @@ func (vm *VM) Run() {
 				if len(currentVWheel.data) == 0 {
 					vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 				}
+
+				currentVWheel.data[currentVWheel.cursor] = result
+			} else if inst.Argument > 0 {
+				result := inst.Argument + currentVWheel.data[currentVWheel.cursor].(int)
 				currentVWheel.data[currentVWheel.cursor] = result
 			} else {
 				if len(currentVWheel.data) == 0 {
@@ -268,7 +274,7 @@ func (vm *VM) Run() {
 				currentVWheel.data[currentVWheel.cursor] = result
 			}
 		case "MUL":
-			if inst.Argument > 0 {
+			if inst.Args {
 				numArgs := inst.Argument
 				numericArgs, err := getNumericArgs(&args, numArgs)
 				if err != nil {
@@ -284,6 +290,9 @@ func (vm *VM) Run() {
 				if len(currentVWheel.data) == 0 {
 					vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			} else if inst.Argument > 0 {
+				result := inst.Argument * currentVWheel.data[currentVWheel.cursor].(int)
 				currentVWheel.data[currentVWheel.cursor] = result
 			} else {
 				if len(currentVWheel.data) == 0 {
@@ -366,6 +375,8 @@ func (vm *VM) throwError(message string, inst *Instruction) {
 	if nextInst.Mnemonic == "ERRH" {
 		var moveSteps int
 		moveSteps = nextInst.Argument
+		//!! always fold this code or you will be blinded
+
 		if len(nextInst.ArgumentStr) > 0 {
 			arg := nextInst.ArgumentStr
 			switch arg {

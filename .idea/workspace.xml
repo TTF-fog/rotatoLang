@@ -3,11 +3,9 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="ALL" />
   </component>
-  <component name="BookmarksViewState">
-    <option name="askBeforeDeletingLists" value="false" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="begin work on online playground">
+    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="add foundations for error handling, requires testing">
+      <change afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/for.whl" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" afterDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/calculator.whl" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/calculator.whl" afterDir="false" />
@@ -48,7 +46,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Go Build.go build interpreter.go lexer.go main.go.executor": "Run",
+    "Go Build.go build interpreter.go lexer.go main.go.executor": "Debug",
     "Go Build.go build main.go.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.GoLinterPluginOnboarding": "true",
@@ -87,11 +85,11 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build interpreter.go">
+  <component name="RunManager" selected="Go Build.go build interpreter.go lexer.go main.go">
     <configuration name="go build interpreter.go lexer.go main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="twist" />
       <working_directory value="$USER_HOME$/$PROJECT_DIR$" />
-      <parameters value="./programs/calculator.whl" />
+      <parameters value="./programs/for.whl" />
       <kind value="FILE" />
       <package value="twist" />
       <directory value="$USER_HOME$/$PROJECT_DIR$" />
@@ -123,8 +121,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build interpreter.go" />
         <item itemvalue="Go Build.go build interpreter.go lexer.go main.go" />
+        <item itemvalue="Go Build.go build interpreter.go" />
         <item itemvalue="Go Build.go build main.go" />
       </list>
     </recent_temporary>
@@ -170,25 +168,10 @@
     <MESSAGE value="updated test programs, new commands" />
     <MESSAGE value="flesh out arithemetic commands begin support for floats" />
     <MESSAGE value="begin work on online playground" />
-    <option name="LAST_COMMIT_MESSAGE" value="begin work on online playground" />
+    <MESSAGE value="add foundations for error handling, requires testing" />
+    <option name="LAST_COMMIT_MESSAGE" value="add foundations for error handling, requires testing" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go</url>
-          <line>334</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go</url>
-          <line>340</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
