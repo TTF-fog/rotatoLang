@@ -1,25 +1,27 @@
-
 DEF "add" 2
 ADD 0
+ADDARG
 RET
 
 DEF "subtract" 2
 SUB 0
+ADDARG
 RET
-
 DEF "multiply" 2
 MUL 0
+OUT
 RET
 
 DEF "divide" 2
 DIV 0
+OUT
 RET
 
 DEF "print_result" 1
 OUT "Result: "
-MOVV 1
 OUT
 RET
+
 NEWV 0
 NEWV 0
 NEWV ""
@@ -33,28 +35,27 @@ ADDARG
 MOVVW 1
 INP "Enter operation:"
 CMP "+"
-JIZ -4
-CALL "add" %
-OUT
+JIZ -5
+CALL "add" 2
+ADDARG
+CALL "print_result" 1
 RET
 CMP "-"
-JIZ -4
+JIZ -5
 CALL "subtract" 2
 OUT
+CALL "print_result" 1
 RET
 CMP "*"
-JIZ -6
-OUT "Hi"
+JIZ -4
 CALL "multiply" 2
-ADDARG
 CALL "print_result" %
 RET
 CMP "/"
-JIZ -5
+JIZ -6
 CALL "divide" 2
-ADDARG
-CALL "print_result" %
 RET
-OUT "Invalid operation"
 RET
-
+RET
+RET ;it wont return otherwise :sob:
+OUT "Invalid Operation"

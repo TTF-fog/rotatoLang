@@ -10,6 +10,9 @@ import (
 
 func main() {
 	println("init")
+	if len(os.Args) < 2 {
+		panic("Please provide a file argument!")
+	}
 	file, err := os.Open(os.Args[1])
 	if err != nil {
 		fmt.Println("Error opening file:", err)

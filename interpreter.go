@@ -624,6 +624,7 @@ func (vm *VM) printDebug() {
 
 func pop_args_and_return(number int, args []interface{}) ([]interface{}, []interface{}) {
 	if len(args) < number {
+
 		panic(NOT_ENOUGH_ARGS_ERROR)
 	}
 	popped := args[:number]
