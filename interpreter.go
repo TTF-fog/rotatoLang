@@ -68,7 +68,22 @@ func (vm *VM) Run() {
 		currentVWheel := &vm.dataStack[len(vm.dataStack)-1]
 		switch inst.Mnemonic {
 		case "DEL":
-			time.Sleep(time.Duration(inst.Argument) * time.Millisecond)
+			if inst.Args {
+				numericArgs, err := getNumericArgs(&args, 1)
+				if err != nil {
+					vm.throwError(fmt.Sprintf("%s: %v", ARITHMETIC_ERROR, err), &inst)
+				}
+				if len(numericArgs) == 0 {
+					vm.throwError(NOT_ENOUGH_ARGS_ERROR, &inst)
+				}
+				delay := numericArgs[0]
+				if delay < 0 {
+					delay = 0
+				}
+				time.Sleep(time.Duration(delay) * time.Millisecond)
+			} else {
+				time.Sleep(time.Duration(inst.Argument) * time.Millisecond)
+			}
 		case "DEF":
 			searchCursor := vm.C.cursor + 1
 			for searchCursor < len(vm.C.data) && vm.C.data[searchCursor].Mnemonic != "RET" {
@@ -83,10 +98,20 @@ func (vm *VM) Run() {
 				fmt.Printf("%v ", item)
 			}
 			println("\n")
+		case "JMP":
+			moveSteps := inst.Argument
+			if vm.C.dir == 1 {
+				vm.C.cursor = mod(vm.C.cursor+moveSteps, len(vm.C.data))
+			} else {
+				vm.C.cursor = mod(vm.C.cursor-moveSteps, len(vm.C.data))
+			}
+			//println(vm.C.data[vm.C.cursor].Mnemonic)
+			continue
+
 		case "CALL":
 			funcName := inst.ArgumentStr
 			if startAddr, found := functions[funcName]; found {
-				vm.callStack = append(vm.callStack, vm.C.cursor)
+				vm.callStack = append(vm.callStack, vm.C.cursor+1)
 				var popped_args []interface{}
 				if inst.Argument > 0 {
 					popped_args, args = pop_args_and_return(inst.Argument, args)
@@ -106,12 +131,11 @@ func (vm *VM) Run() {
 			}
 		case "RET":
 			if len(vm.callStack) > 0 {
-				returnValue := vm.dataStack[len(vm.dataStack)-1].data[vm.dataStack[len(vm.dataStack)-1].cursor]
+				// Pop the function's VWheel if it's not the last one
 				if len(vm.dataStack) > 1 {
 					vm.dataStack = vm.dataStack[:len(vm.dataStack)-1]
-					callerVWheel := &vm.dataStack[len(vm.dataStack)-1]
-					callerVWheel.data[callerVWheel.cursor] = returnValue
 				}
+
 				returnAddr := vm.callStack[len(vm.callStack)-1]
 				vm.callStack = vm.callStack[:len(vm.callStack)-1]
 				vm.C.cursor = returnAddr
@@ -220,7 +244,7 @@ func (vm *VM) Run() {
 				}
 
 				currentVWheel.data[currentVWheel.cursor] = result
-			} else if inst.Argument > 0 {
+			} else if inst.Argument != 0 {
 				result := inst.Argument + currentVWheel.data[currentVWheel.cursor].(int)
 				currentVWheel.data[currentVWheel.cursor] = result
 			} else {

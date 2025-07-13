@@ -1,0 +1,8 @@
+NEWV 0 ;new variable with value 0 (iterator)
+ADDARG ; add it as an argument for the next instruction
+ADD 1 ; add one to it
+OUT "Variable:" ; print out "variable" (crazy)
+OUT ; print the value of it
+DEL 300 ; delay for 300ms
+CMP 50 ; compare to 50 (the iterator)
+JIZ 5 ; if not 50, loop

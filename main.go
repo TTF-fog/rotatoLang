@@ -39,7 +39,7 @@ func main() {
 			argF := 0.0
 			str_arg := ""
 			argTok := lexer.NextToken()
-			for argTok.Type != NEWLINE {
+			for argTok.Type != NEWLINE && argTok.Type != COMMENT {
 				if argTok.Type == INTEGER {
 					arg, _ = strconv.Atoi(argTok.Literal.(string))
 				} else if argTok.Type == FLOAT {

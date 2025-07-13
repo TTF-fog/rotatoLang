@@ -1,0 +1,31 @@
+DEF "for_loop" 3
+CMP 0
+JIZ 12
+
+MOVVW 1
+OUT
+DEL 300
+MOVVW -1
+ADD -1
+
+ADDARG
+MOVVW 1
+ADDARG
+MOVVW 1
+ADDARG      ;
+
+CALL "for_loop" 3
+
+RET
+
+NEWV 15                  ; No. of iterations
+NEWV "Wonka..."       ; String argument (what to print out
+NEWV 100                ; variable for compat
+
+ADDARG
+MOVVW 1
+ADDARG
+MOVVW 1
+ADDARG
+
+CALL "for_loop" 3
