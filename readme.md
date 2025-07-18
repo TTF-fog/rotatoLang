@@ -1,7 +1,7 @@
 
-# Twist Language Documentation
+# Rotawheel Language Documentation
 
-Docs for the Rotawheel (Patent Pending) saptial language
+Docs for the Rotawheel (Patent Pending) spatial language. Rotawheel uses 2 "Wheels", which act like continuous stacks. Variables don't have a name, but rather a position, which can be rotated to on the VWheel (Variable Wheel) to use. Control flow also depends on this
 ## Core Concepts: Wheels
 
 Rather than having a traditional variable and control flow structure, this Esolang uses two wheels:
