@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="ready to ship!!!!">
+    <list default="true" id="811e73ee-0536-49c5-9d57-44a1367f589b" name="Changes" comment="c">
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/interpreter.go" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/main.go" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/base_comparison.whl" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/base_comparison.whl" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/calculator.whl" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/calculator.whl" afterDir="false" />
-      <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/programs/for.whl" beforeDir="false" />
       <change beforePath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/interpreter.go" beforeDir="false" afterPath="$USER_HOME$/home/ishaan/GolandProjects/twist/server/interpreter.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,8 +113,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.go build interpreter.go" />
       <item itemvalue="Go Build.go build interpreter.go lexer.go main.go" />
+      <item itemvalue="Go Build.go build interpreter.go" />
       <item itemvalue="Go Build.go build main.go" />
     </list>
     <recent_temporary>
@@ -210,7 +205,9 @@
     <MESSAGE value="improve arithemetic operations, fix calculator.whl issues, add example for program" />
     <MESSAGE value="fix for loop which broke randomly?" />
     <MESSAGE value="ready to ship!!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="ready to ship!!!!" />
+    <MESSAGE value="the calculator.whl broke for the hundredth time" />
+    <MESSAGE value="c" />
+    <option name="LAST_COMMIT_MESSAGE" value="c" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

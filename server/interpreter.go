@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Instruction struct {
@@ -17,6 +18,7 @@ type Instruction struct {
 	Args        bool
 }
 
+// test
 type VWheel struct {
 	cursor  int
 	data    []interface{}
@@ -65,13 +67,15 @@ func (vm *VM) Run() {
 		inst := vm.C.data[vm.C.cursor]
 		currentVWheel := &vm.dataStack[len(vm.dataStack)-1]
 		switch inst.Mnemonic {
+		case "DEL":
+			time.Sleep(time.Duration(inst.Argument) * time.Millisecond)
 		case "DEF":
 			searchCursor := vm.C.cursor + 1
 			for searchCursor < len(vm.C.data) && vm.C.data[searchCursor].Mnemonic != "RET" {
 				searchCursor++
 			}
 			if searchCursor == len(vm.C.data) {
-				vm.throwError("incorrect termination", &inst)
+				vm.throwError(INCORRECT_TERMINATION_ERROR, &inst)
 			}
 			vm.C.cursor = searchCursor
 		case "ARGVIEW":
@@ -98,7 +102,7 @@ func (vm *VM) Run() {
 				vm.C.cursor = startAddr.line
 				continue
 			} else {
-				vm.throwError(fmt.Sprintf("Call to undefined function '%s'", funcName), &inst)
+				vm.throwError(fmt.Sprintf("%s '%s'", UNDEFINED_FUNCTION_ERROR, funcName), &inst)
 			}
 		case "RET":
 			if len(vm.callStack) > 0 {
@@ -122,12 +126,12 @@ func (vm *VM) Run() {
 			}
 		case "WHLDIRV":
 			if inst.Argument != 1 && inst.Argument != -1 {
-				vm.throwError("Invalid argument", &inst)
+				vm.throwError(BAD_ARGUMENT_ERROR, &inst)
 			}
 			currentVWheel.dir = inst.Argument
 		case "WHLDIRC":
 			if inst.Argument != 1 && inst.Argument != -1 {
-				vm.throwError("Invalid argument", &inst)
+				vm.throwError(BAD_ARGUMENT_ERROR, &inst)
 			}
 			vm.C.dir = inst.Argument
 		case "ADDARG":
@@ -145,15 +149,15 @@ func (vm *VM) Run() {
 				}
 			} else {
 				cursor_data := currentVWheel.data[currentVWheel.cursor]
-				if len(inst.ArgumentStr) > 0 { //since op depends on cursor data type, providing an int to it will return true (generally) as it compares to the
-					currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr //non-existent int argument
-					switch cursor_data.(type) {
+				if len(inst.ArgumentStr) > 0 {
+					switch val := cursor_data.(type) {
 					case int:
-						currentVWheel.CMPFLAG = strconv.Itoa(cursor_data.(int)) == inst.ArgumentStr
+						currentVWheel.CMPFLAG = strconv.Itoa(val) == inst.ArgumentStr
 					case string:
-						currentVWheel.CMPFLAG = cursor_data.(string) == inst.ArgumentStr
+						currentVWheel.CMPFLAG = val == inst.ArgumentStr
+					default:
+						currentVWheel.CMPFLAG = false
 					}
-
 				} else {
 					currentVWheel.CMPFLAG = cursor_data.(int) > inst.Argument
 				}
@@ -180,7 +184,7 @@ func (vm *VM) Run() {
 		case "MOVVW":
 			moveSteps := inst.Argument
 			if len(currentVWheel.data) == 0 {
-				vm.throwError("Cannot move on empty VWheel", &inst)
+				vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 			}
 			if currentVWheel.dir == 1 {
 				currentVWheel.cursor = mod(currentVWheel.cursor+moveSteps, len(currentVWheel.data))
@@ -201,30 +205,34 @@ func (vm *VM) Run() {
 		case "DBGPRINTV":
 			vm.printDebug()
 		case "ADD":
-			if inst.Argument > 0 {
+			if inst.Args {
 				numArgs := inst.Argument
 				numericArgs, err := getNumericArgs(&args, numArgs)
 				if err != nil {
-					vm.throwError(fmt.Sprintf("ADD error: %v", err), &inst)
+					vm.throwError(fmt.Sprintf("%s: %v", ARITHMETIC_ERROR, err), &inst)
 				}
 				result := 0
 				for _, val := range numericArgs {
 					result += val
 				}
 				if len(currentVWheel.data) == 0 {
-					vm.throwError("Cannot ADD on empty VWheel", &inst)
+					vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 				}
+
+				currentVWheel.data[currentVWheel.cursor] = result
+			} else if inst.Argument > 0 {
+				result := inst.Argument + currentVWheel.data[currentVWheel.cursor].(int)
 				currentVWheel.data[currentVWheel.cursor] = result
 			} else {
 				if len(currentVWheel.data) == 0 {
-					vm.throwError("Cannot ADD on empty VWheel", &inst)
+					vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 				}
 				result := 0
 				for _, item := range currentVWheel.data {
 					if val, ok := item.(int); ok {
 						result += val
 					} else {
-						vm.throwError("ADD requires numeric data in VWheel", &inst)
+						vm.throwError(NUMERIC_DATA_ERROR, &inst)
 					}
 				}
 				currentVWheel.data[currentVWheel.cursor] = result
@@ -234,29 +242,29 @@ func (vm *VM) Run() {
 				numArgs := inst.Argument
 				numericArgs, err := getNumericArgs(&args, numArgs)
 				if err != nil {
-					vm.throwError(fmt.Sprintf("SUB error: %v", err), &inst)
+					vm.throwError(fmt.Sprintf("%s: %v", ARITHMETIC_ERROR, err), &inst)
 				}
 				if len(numericArgs) == 0 {
-					vm.throwError("SUB requires at least one argument", &inst)
+					vm.throwError(NOT_ENOUGH_ARGS_ERROR, &inst)
 				}
 				result := numericArgs[0]
 				for i := 1; i < len(numericArgs); i++ {
 					result -= numericArgs[i]
 				}
 				if len(currentVWheel.data) == 0 {
-					vm.throwError("Cannot SUB on empty VWheel", &inst)
+					vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 				}
 				currentVWheel.data[currentVWheel.cursor] = result
 			} else {
 				if len(currentVWheel.data) < 1 {
-					vm.throwError("SUB requires at least one argument in VWheel", &inst)
+					vm.throwError(NOT_ENOUGH_ARGS_ERROR, &inst)
 				}
 				var numericData []int
 				for _, item := range currentVWheel.data {
 					if val, ok := item.(int); ok {
 						numericData = append(numericData, val)
 					} else {
-						vm.throwError("SUB requires numeric data in VWheel", &inst)
+						vm.throwError(NUMERIC_DATA_ERROR, &inst)
 					}
 				}
 				result := numericData[0]
@@ -266,33 +274,36 @@ func (vm *VM) Run() {
 				currentVWheel.data[currentVWheel.cursor] = result
 			}
 		case "MUL":
-			if inst.Argument > 0 {
+			if inst.Args {
 				numArgs := inst.Argument
 				numericArgs, err := getNumericArgs(&args, numArgs)
 				if err != nil {
-					vm.throwError(fmt.Sprintf("MUL error: %v", err), &inst)
+					vm.throwError(fmt.Sprintf("%s: %v", ARITHMETIC_ERROR, err), &inst)
 				}
 				if len(numericArgs) == 0 {
-					vm.throwError("MUL requires at least one argument", &inst)
+					vm.throwError(NOT_ENOUGH_ARGS_ERROR, &inst)
 				}
 				result := 1
 				for _, val := range numericArgs {
 					result *= val
 				}
 				if len(currentVWheel.data) == 0 {
-					vm.throwError("Cannot MUL on empty VWheel", &inst)
+					vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 				}
+				currentVWheel.data[currentVWheel.cursor] = result
+			} else if inst.Argument > 0 {
+				result := inst.Argument * currentVWheel.data[currentVWheel.cursor].(int)
 				currentVWheel.data[currentVWheel.cursor] = result
 			} else {
 				if len(currentVWheel.data) == 0 {
-					vm.throwError("Cannot MUL on empty VWheel", &inst)
+					vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 				}
 				result := 1
 				for _, item := range currentVWheel.data {
 					if val, ok := item.(int); ok {
 						result *= val
 					} else {
-						vm.throwError("MUL requires numeric data in VWheel", &inst)
+						vm.throwError(NUMERIC_DATA_ERROR, &inst)
 					}
 				}
 				currentVWheel.data[currentVWheel.cursor] = result
@@ -302,39 +313,39 @@ func (vm *VM) Run() {
 				numArgs := inst.Argument
 				numericArgs, err := getNumericArgs(&args, numArgs)
 				if err != nil {
-					vm.throwError(fmt.Sprintf("DIV error: %v", err), &inst)
+					vm.throwError(fmt.Sprintf("%s: %v", ARITHMETIC_ERROR, err), &inst)
 				}
 				if len(numericArgs) == 0 {
-					vm.throwError("DIV requires at least one argument", &inst)
+					vm.throwError(NOT_ENOUGH_ARGS_ERROR, &inst)
 				}
 				result := numericArgs[0]
 				for i := 1; i < len(numericArgs); i++ {
 					if numericArgs[i] == 0 {
-						vm.throwError("division by zero", &inst)
+						vm.throwError(DIVISION_BY_ZERO_ERROR, &inst)
 					}
 					result /= numericArgs[i]
 				}
 				if len(currentVWheel.data) == 0 {
-					vm.throwError("Cannot DIV on empty VWheel", &inst)
+					vm.throwError(EMPTY_VWHEEL_ERROR, &inst)
 				}
 				currentVWheel.data[currentVWheel.cursor] = result
 			} else {
 				if len(currentVWheel.data) < 1 {
-					vm.throwError("DIV requires at least one argument in VWheel", &inst)
+					vm.throwError(NOT_ENOUGH_ARGS_ERROR, &inst)
 				}
 				var numericData []int
 				for _, item := range currentVWheel.data {
 					if val, ok := item.(int); ok {
 						numericData = append(numericData, val)
 					} else {
-						vm.throwError("DIV requires numeric data in VWheel", &inst)
+						vm.throwError(NUMERIC_DATA_ERROR, &inst)
 					}
 				}
 				var result float64
 				result = float64(numericData[0])
 				for i := 1; i < len(numericData); i++ {
 					if numericData[i] == 0 {
-						vm.throwError("division by zero", &inst)
+						vm.throwError(DIVISION_BY_ZERO_ERROR, &inst)
 					}
 					result /= float64(numericData[i])
 				}
@@ -348,9 +359,90 @@ func (vm *VM) Run() {
 	}
 }
 
+const (
+	BAD_ARGUMENT_ERROR          = "Bad Argument"
+	INCORRECT_TERMINATION_ERROR = "Incorrect Termination"
+	EMPTY_VWHEEL_ERROR          = "Cannot move on empty VWheel"
+	NUMERIC_DATA_ERROR          = "Numeric data required in VWheel"
+	NOT_ENOUGH_ARGS_ERROR       = "Not enough arguments"
+	DIVISION_BY_ZERO_ERROR      = "Division by zero"
+	UNDEFINED_FUNCTION_ERROR    = "Call to undefined function"
+	ARITHMETIC_ERROR            = "Arithmetic error"
+)
+
 func (vm *VM) throwError(message string, inst *Instruction) {
-	fmt.Printf("%s @ Line %d, instruction %s , argument %d", message, vm.C.cursor, inst.Mnemonic, inst.Argument)
-	panic("^")
+	nextInst := vm.C.data[vm.C.cursor+1]
+	if nextInst.Mnemonic == "ERRH" {
+		var moveSteps int
+		moveSteps = nextInst.Argument
+		//!! always fold this code or you will be blinded
+
+		if len(nextInst.ArgumentStr) > 0 {
+			arg := nextInst.ArgumentStr
+			switch arg {
+			//i apolgise for inflicting this code upon the world
+			case "BAD_ARGUMENT_ERROR":
+				if message == BAD_ARGUMENT_ERROR {
+					moveSteps = nextInst.Argument
+				} else {
+					moveSteps = 0
+				}
+			case "INCORRECT_TERMINATION_ERROR":
+				if message == INCORRECT_TERMINATION_ERROR {
+					moveSteps = nextInst.Argument
+				} else {
+					moveSteps = 0
+				}
+			case "EMPTY_VWHEEL_ERROR":
+				if message == EMPTY_VWHEEL_ERROR {
+					moveSteps = nextInst.Argument
+				} else {
+					moveSteps = 0
+				}
+			case "NUMERIC_DATA_ERROR":
+				if message == NUMERIC_DATA_ERROR {
+					moveSteps = nextInst.Argument
+				} else {
+					moveSteps = 0
+				}
+			case "NOT_ENOUGH_ARGS_ERROR":
+				if message == NOT_ENOUGH_ARGS_ERROR {
+					moveSteps = nextInst.Argument
+				} else {
+					moveSteps = 0
+				}
+			case "DIVISION_BY_ZERO_ERROR":
+				if message == DIVISION_BY_ZERO_ERROR {
+					moveSteps = nextInst.Argument
+				} else {
+					moveSteps = 0
+				}
+			case "UNDEFINED_FUNCTION_ERROR":
+				if message == UNDEFINED_FUNCTION_ERROR {
+					moveSteps = nextInst.Argument
+				} else {
+					moveSteps = 0
+				}
+			case "ARITHMETIC_ERROR":
+				if message == ARITHMETIC_ERROR {
+					moveSteps = nextInst.Argument
+				} else {
+					moveSteps = 0
+				}
+			default:
+				panic("wtf bro :sob:")
+			}
+		}
+		if vm.C.dir == 1 {
+			vm.C.cursor = mod(vm.C.cursor+moveSteps, len(vm.C.data))
+		} else {
+			vm.C.cursor = mod(vm.C.cursor-moveSteps, len(vm.C.data))
+		}
+	} else {
+		fmt.Printf("%s @ Line %d, instruction %s , argument %d", message, vm.C.cursor, inst.Mnemonic, inst.Argument)
+		panic("^")
+	}
+
 }
 
 func (vm *VM) printDebugC() {
@@ -508,7 +600,7 @@ func (vm *VM) printDebug() {
 
 func pop_args_and_return(number int, args []interface{}) ([]interface{}, []interface{}) {
 	if len(args) < number {
-		panic("not enough arguments on the stack")
+		panic(NOT_ENOUGH_ARGS_ERROR)
 	}
 	popped := args[:number]
 	remaining := args[number:]
@@ -524,7 +616,7 @@ func getNumericArgs(args *[]interface{}, count int) ([]int, error) {
 		if val, ok := arg.(int); ok {
 			numericArgs[i] = val
 		} else {
-			return nil, fmt.Errorf("argument %v is not an integer", arg)
+			return nil, fmt.Errorf("%s: %v", BAD_ARGUMENT_ERROR, arg)
 		}
 	}
 	return numericArgs, nil
