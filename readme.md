@@ -1,6 +1,6 @@
 
 # Rotawheel Language Documentation
-
+![demo.gif](demo.gif) (for reviewers, this is just the recording i attached to my application, but without all the other non-output windows
 Docs for the Rotawheel (Patent Pending) spatial language. Rotawheel uses 2 "Wheels", which act like continuous stacks. Variables don't have a name, but rather a position, which can be rotated to on the VWheel (Variable Wheel) to use. Control flow also depends on this
 ## Core Concepts: Wheels
 
